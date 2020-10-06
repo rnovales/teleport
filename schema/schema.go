@@ -46,17 +46,21 @@ const (
 	INTEGER DataType = "integer"
 	DECIMAL DataType = "decimal"
 	FLOAT   DataType = "float"
+	NUMBER  DataType = "number"
 
 	// String types
 	STRING DataType = "string"
 	TEXT   DataType = "text"
 
 	// Time types
-	DATE      DataType = "date"
-	TIMESTAMP DataType = "timestamp"
+	DATE         DataType = "date"
+	TIMESTAMP    DataType = "timestamp"
+	TIMESTAMPTZ  DataType = "timestamptz"
 
 	// Other types
 	BOOLEAN DataType = "boolean"
+
+	VARIANT DataType = "variant"
 )
 
 type Option string
@@ -166,7 +170,7 @@ func determineDataType(columnType sqlColumn) (DataType, error) {
 
 	switch {
 	case intRegex.MatchString(databaseTypeName):
-		return INTEGER, nil
+		return NUMBER, nil
 	case floatRegex.MatchString(databaseTypeName):
 		return FLOAT, nil
 	case decimalRegex.MatchString(databaseTypeName):
@@ -183,6 +187,8 @@ func determineDataType(columnType sqlColumn) (DataType, error) {
 		return BOOLEAN, nil
 	case strings.HasPrefix(databaseTypeName, "datetime"):
 		return TIMESTAMP, nil
+	case databaseTypeName == "timestamptz" || databaseTypeName == "timestamp with time zone":
+		return TIMESTAMPTZ, nil
 	case strings.HasPrefix(databaseTypeName, "timestamp"):
 		return TIMESTAMP, nil
 	case databaseTypeName == "date":
