@@ -14,7 +14,7 @@ import (
 	"strings"
 
 	slutil "github.com/hundredwatt/starlib/util"
-	"github.com/hundredwatt/teleport/schema"
+	"github.com/rnovales/teleport/schema"
 	log "github.com/sirupsen/logrus"
 	"go.starlark.net/starlark"
 )

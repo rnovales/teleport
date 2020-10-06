@@ -6,7 +6,7 @@ import (
 	"os"
 	"strconv"
 
-	starlarkextensions "github.com/hundredwatt/teleport/starlarkextensions"
+	starlarkextensions "github.com/rnovales/teleport/starlarkextensions"
 	"go.starlark.net/starlark"
 	"gopkg.in/validator.v2"
 )

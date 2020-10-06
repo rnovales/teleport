@@ -7,7 +7,7 @@ import (
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/hundredwatt/teleport/secrets"
+	"github.com/rnovales/teleport/secrets"
 	_ "github.com/lib/pq"
 	_ "github.com/mattn/go-sqlite3"
 	_ "github.com/snowflakedb/gosnowflake"

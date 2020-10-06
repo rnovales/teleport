@@ -8,7 +8,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/hundredwatt/teleport/schema"
+	"github.com/rnovales/teleport/schema"
 )
 
 func importSqlite3(db *schema.Database, table string, file string, columns []schema.Column) error {

@@ -3,7 +3,7 @@ package main
 import (
 	"testing"
 
-	"github.com/hundredwatt/teleport/schema"
+	"github.com/rnovales/teleport/schema"
 )
 
 func TestSQLTransform(t *testing.T) {

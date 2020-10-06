@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/hundredwatt/teleport/schema"
+	"github.com/rnovales/teleport/schema"
 	log "github.com/sirupsen/logrus"
 )
 

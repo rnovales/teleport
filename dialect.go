@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/hundredwatt/teleport/schema"
+	"github.com/rnovales/teleport/schema"
 )
 
 type Dialect struct {

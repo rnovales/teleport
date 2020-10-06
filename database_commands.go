@@ -7,7 +7,7 @@ import (
 	"os/exec"
 	"syscall"
 
-	"github.com/hundredwatt/teleport/schema"
+	"github.com/rnovales/teleport/schema"
 	log "github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
 )

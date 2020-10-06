@@ -6,7 +6,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/hundredwatt/teleport/secrets"
+	"github.com/rnovales/teleport/secrets"
 	"github.com/stretchr/testify/assert"
 )
 

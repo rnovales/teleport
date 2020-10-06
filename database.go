@@ -16,7 +16,7 @@ import (
 	"github.com/lib/pq"
 
 	slutil "github.com/hundredwatt/starlib/util"
-	"github.com/hundredwatt/teleport/schema"
+	"github.com/rnovales/teleport/schema"
 	log "github.com/sirupsen/logrus"
 	"github.com/xo/dburl"
 	"go.starlark.net/starlark"

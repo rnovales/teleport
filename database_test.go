@@ -11,7 +11,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hundredwatt/teleport/schema"
+	"github.com/rnovales/teleport/schema"
 	log "github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 	"go.starlark.net/starlark"

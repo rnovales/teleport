@@ -1,5 +1,3 @@
-// +build snowflake
-
 package schema
 
 import (

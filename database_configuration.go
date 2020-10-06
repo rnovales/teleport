@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/hundredwatt/teleport/schema"
-	starlarkextensions "github.com/hundredwatt/teleport/starlarkextensions"
+	"github.com/rnovales/teleport/schema"
+	starlarkextensions "github.com/rnovales/teleport/starlarkextensions"
 	"github.com/ilyakaznacheev/cleanenv"
 	log "github.com/sirupsen/logrus"
 	"go.starlark.net/starlark"

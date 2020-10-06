@@ -8,7 +8,7 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/hundredwatt/teleport/secrets"
+	"github.com/rnovales/teleport/secrets"
 	log "github.com/sirupsen/logrus"
 )
 
