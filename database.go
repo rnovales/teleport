@@ -13,6 +13,7 @@ import (
 	"time"
 
 	mysqldriver "github.com/go-sql-driver/mysql"
+	"github.com/lib/pq"
 
 	slutil "github.com/hundredwatt/starlib/util"
 	"github.com/hundredwatt/teleport/schema"
@@ -355,11 +356,11 @@ func connectDatabase(source string) (*schema.Database, error) {
 	db := &schema.Database{database, driver}
 
 	if schema, ok := databaseSchema(source, driver); ok {
-		db.Exec(fmt.Sprintf(GetDialect(db).SetSchemaQuery, schema))
+		db.Exec(fmt.Sprintf(GetDialect(db).SetSchemaQuery, pq.QuoteIdentifier(schema)))
 	}
 
 	if schema, ok := Databases[source].Options["schema"]; ok {
-		_, err := database.Exec(fmt.Sprintf("SET search_path TO %s", schema))
+		_, err := database.Exec(fmt.Sprintf("SET search_path TO %s", pq.QuoteIdentifier(schema)))
 		if err != nil {
 			return nil, err
 		}
