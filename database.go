@@ -39,7 +39,6 @@ func extractLoadDatabase(sourceOrPath string, destination string, tableName stri
 		destinationTableNamePrefix = pgSchema
 	}
 
-	fmt.Println("aedfasdfadsfasdadsfgasdfasdf")
 	if cluster, ok := databaseCluster(source); ok {
 		destinationTableNamePrefix = cluster + "." + destinationTableNamePrefix
 	}
