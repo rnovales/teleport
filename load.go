@@ -146,7 +146,11 @@ func updatePrimaryTable(destinationTable *schema.Table, stagingTableName string,
 	case "full", "Full":
 		query = fmt.Sprintf(GetDialect(db).FullLoadQuery, db.EscapeIdentifier(destinationTable.Name), db.EscapeIdentifier(stagingTableName))
 	case "modified-only", "ModifiedOnly", "Incremental":
-		query = fmt.Sprintf(GetDialect(db).ModifiedOnlyLoadQuery, db.EscapeIdentifier(destinationTable.Name), db.EscapeIdentifier(stagingTableName), strategyOpts.PrimaryKey)
+		if GetDialect(db) == snowflake {
+			query = getSnowFlakeModifiedOnlyLoadQuery(db, stagingTableName, destinationTable, strategyOpts)
+		} else {
+			query = fmt.Sprintf(GetDialect(db).ModifiedOnlyLoadQuery, db.EscapeIdentifier(destinationTable.Name), db.EscapeIdentifier(stagingTableName), strategyOpts.PrimaryKey)
+		}
 	}
 
 	fnlog.Debugf("Updating primary table")

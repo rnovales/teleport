@@ -1,6 +1,9 @@
 package main
 
 import (
+	"fmt"
+	"strings"
+
 	"github.com/rnovales/teleport/schema"
 )
 
@@ -68,4 +71,27 @@ func GetDialect(db *schema.Database) Dialect {
 	default:
 		return mysql
 	}
+}
+
+func getSnowFlakeModifiedOnlyLoadQuery(db *schema.Database, stagingTableName string, destinationTable *schema.Table, strategyOpts StrategyOptions) string {
+	var q, targetCol, targetVal strings.Builder
+	q.WriteString(fmt.Sprintf("MERGE INTO %[1]s USING %[2]s ON %[1]s.%[3]s = %[2]s.%[3]s\nWHEN MATCHED THEN UPDATE SET\n", db.EscapeIdentifier(destinationTable.Name), db.EscapeIdentifier(stagingTableName), db.EscapeIdentifier(strategyOpts.PrimaryKey)))
+
+	for i, c := range destinationTable.Columns {
+		q.WriteString(fmt.Sprintf("%[1]s.%[3]s = %[2]s.%[3]s", db.EscapeIdentifier(destinationTable.Name), db.EscapeIdentifier(stagingTableName), db.EscapeIdentifier(c.Name)))
+
+		targetCol.WriteString(db.EscapeIdentifier(c.Name))
+		targetVal.WriteString(fmt.Sprintf("%s.%s", db.EscapeIdentifier(stagingTableName), db.EscapeIdentifier(c.Name)))
+		if i != len(destinationTable.Columns) - 1 {
+			q.WriteString(", \n")
+			targetCol.WriteString(", \n")
+			targetVal.WriteString(", \n")
+		}
+
+
+	}
+
+	q.WriteString("\nWHEN NOT MATCHED THEN INSERT (\n" + targetCol.String() + ") \n VALUES (\n" + targetVal.String() + ")")
+
+	return q.String()
 }
