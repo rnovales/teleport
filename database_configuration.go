@@ -294,3 +294,10 @@ func databaseSchema(source string, driver string) (string, bool) {
 
 	return "", false
 }
+
+func databaseCluster(source string) (string, bool) {
+	if cluster, ok := Databases[source].Options["cluster"]; ok {
+		return cluster, true
+	}
+	return "", false
+}

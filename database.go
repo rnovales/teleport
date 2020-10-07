@@ -34,6 +34,16 @@ func extractLoadDatabase(sourceOrPath string, destination string, tableName stri
 		source = sourceOrPath
 	}
 
+	destinationTableNamePrefix := source
+	if pgSchema, ok := databaseSchema(source, "postgres"); ok {
+		destinationTableNamePrefix = pgSchema
+	}
+
+	fmt.Println("aedfasdfadsfasdadsfgasdfasdf")
+	if cluster, ok := databaseCluster(source); ok {
+		destinationTableNamePrefix = cluster + "." + destinationTableNamePrefix
+	}
+
 	fnlog := log.WithFields(log.Fields{
 		"from":  source,
 		"to":    destination,
@@ -47,7 +57,8 @@ func extractLoadDatabase(sourceOrPath string, destination string, tableName stri
 	var tableExtract TableExtract
 	var csvfile string
 
-	destinationTableName := fmt.Sprintf("%s_%s", source, tableName)
+	destinationTableName := strings.ToUpper(fmt.Sprintf("%s.%s", destinationTableNamePrefix, tableName))
+	fnlog.Info(fmt.Sprintf("destination table name = %s", destinationTableName))
 
 	RunWorkflow([]func() error{
 		func() error { return readTableExtractConfiguration(sourceOrPath, tableName, &tableExtract) },
