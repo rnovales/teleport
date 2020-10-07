@@ -19,6 +19,8 @@ var parseSnowflakeSpecialTypes = func(column sqlColumn) (DataType, map[Option]in
 		} else {
 			return DECIMAL, determinedOptions, true
 		}
+	case "variant":
+		return VARIANT, options, true
 	}
 
 	return "", options, false
