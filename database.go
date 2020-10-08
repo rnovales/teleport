@@ -34,15 +34,6 @@ func extractLoadDatabase(sourceOrPath string, destination string, tableName stri
 		source = sourceOrPath
 	}
 
-	destinationTableNamePrefix := source
-	if pgSchema, ok := databaseSchema(source, "postgres"); ok {
-		destinationTableNamePrefix = pgSchema
-	}
-
-	if cluster, ok := databaseCluster(source); ok {
-		destinationTableNamePrefix = cluster + "." + destinationTableNamePrefix
-	}
-
 	fnlog := log.WithFields(log.Fields{
 		"from":  source,
 		"to":    destination,
@@ -56,7 +47,7 @@ func extractLoadDatabase(sourceOrPath string, destination string, tableName stri
 	var tableExtract TableExtract
 	var csvfile string
 
-	destinationTableName := strings.ToUpper(fmt.Sprintf("%s.%s", destinationTableNamePrefix, tableName))
+	destinationTableName := strings.ToUpper(tableName)
 	fnlog.Info(fmt.Sprintf("destination table name = %s", destinationTableName))
 
 	RunWorkflow([]func() error{
@@ -365,12 +356,13 @@ func connectDatabase(source string) (*schema.Database, error) {
 
 	db := &schema.Database{database, driver}
 
+	schemaQuery := GetDialect(db).SetSchemaQuery
 	if schema, ok := databaseSchema(source, driver); ok {
-		db.Exec(fmt.Sprintf(GetDialect(db).SetSchemaQuery, pq.QuoteIdentifier(schema)))
+		db.Exec(fmt.Sprintf(schemaQuery, pq.QuoteIdentifier(schema)))
 	}
 
 	if schema, ok := Databases[source].Options["schema"]; ok {
-		_, err := database.Exec(fmt.Sprintf("SET search_path TO %s", pq.QuoteIdentifier(schema)))
+		_, err := database.Exec(fmt.Sprintf(schemaQuery, pq.QuoteIdentifier(schema)))
 		if err != nil {
 			return nil, err
 		}
